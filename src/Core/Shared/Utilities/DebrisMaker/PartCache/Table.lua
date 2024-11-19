@@ -1,4 +1,5 @@
 --!nocheck
+--# selene: allow(manual_table_clone, unused_variable
 --^ It works. Just get the type checker to shut up so that people don't send bug reports :P
 
 --[[
@@ -78,7 +79,6 @@ end
 -- ONLY SUPPORTS ORDINAL TABLES (ARRAYS). Merges tbl0 and tbl1 together.
 Table.join = function (tbl0, tbl1)
 	local nt = table.create(#tbl0 + #tbl1)
-	local t2 = table.move(tbl0, 1, #tbl0, 1, nt)
 	return table.move(tbl1, 1, #tbl1, #tbl0 + 1, nt)
 end
 
@@ -93,7 +93,7 @@ end
 -- ONLY SUPPORTS ORDINAL TABLES (ARRAYS). Allocates a new table by getting the length of the current table and increasing its capacity by the specified amount.
 -- This uses Roblox's table.create function.
 Table.expand = function (tbl, byAmount)
-	if (byAmount < 0) then
+	if byAmount < 0 then
 		error("Cannot expand a table by a negative amount of objects.")
 	end
 	

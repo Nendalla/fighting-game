@@ -27,7 +27,7 @@ local function SpawnSmallDebris(explosionPos, material, debrisCache, despawnTime
 	local random = Random.new()
 	local smallDebrisCount = 1
 
-	for i = 1, smallDebrisCount do
+	for _ = 1, smallDebrisCount do
 		local debris = debrisCache:GetPart()
 		debris.Size = (size * random:NextNumber(0.95, 1.15)) * 0.5  -- Small size
 		-- Offset debris position slightly to prevent immediate overlap
@@ -114,7 +114,7 @@ function DebrisMaker:Ground(Pos, Normal, Distance, Size, filter, MaxRocks, Ice, 
 
 	-- Inner Rocks Loop (existing functionality)
 	local function InnerRocksLoop()
-		for i = 1, MaxRocks do
+		for _ = 1, MaxRocks do
 			local newCF = cf * CFrame.fromEulerAnglesXYZ(0, 0, math.rad(angle)) * CFrame.new(0, Distance / 2 + Distance / 10, -10)
 			local ray = workspace:Raycast(newCF.Position, newCF.LookVector * -20, params)
 
@@ -191,9 +191,8 @@ function DebrisMaker:Ground(Pos, Normal, Distance, Size, filter, MaxRocks, Ice, 
 		end
 	end
 
-	-- Outer Rocks Loop (existing functionality)
 	local function OuterRocksLoop()
-		for i = 1, MaxRocks do
+		for _ = 1, MaxRocks do
 			local newCF = cf * CFrame.fromEulerAnglesXYZ(0, 0, math.rad(angle)) * CFrame.new(0, Distance / 2 + Distance / 2.7, -Size.Y * 2)
 			local ray = workspace:Raycast(newCF.Position, newCF.LookVector * -20, params)
 			angle += otherAngle

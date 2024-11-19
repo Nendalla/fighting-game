@@ -69,7 +69,7 @@ function DamagePart:_setup()
                 if self.damageOverTime then
                     self:_damageOverTime(character, humanoid)
                 else
-                    self:_applyDamage(character, humanoid)
+                    self:_applyDamage(character)
                 end
             end
         end
@@ -105,7 +105,7 @@ end
 --- Applies damage to a humanoid using DamageHandler.
 -- @param character Instance The character model to damage
 -- @param humanoid Humanoid The humanoid instance within the character
-function DamagePart:_applyDamage(character: Instance, humanoid: Humanoid)
+function DamagePart:_applyDamage(character: Instance)
     -- Validate parameters
     if not character or not character.Parent then return end
     if not self.damageAmount or typeof(self.damageAmount) ~= "number" then return end

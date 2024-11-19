@@ -56,7 +56,7 @@ function Samurai:Equip(player)
     raycastParams.FilterDescendantsInstances = { player.Character }
     swordHitbox.RaycastParams = raycastParams
 
-    swordHitbox.OnHit:Connect(function(hit, humanoid)
+    swordHitbox.OnHit:Connect(function(_, humanoid)
         if humanoid.Parent:FindFirstChild("iFrame") then return end
 
         PlayerUtilServer:iFrame(player, 0.5)
