@@ -64,7 +64,15 @@ function PikaBeam:_StartAbility(player)
         end
     end
 
-    DamagePart.new(clone.DamagePart, Config.Damage, Config.damageOverTime, Config.debounce, {player.Character}, "PikaBeam", true)
+    DamagePart.new(
+        clone.DamagePart,
+        Config.Damage,
+        Config.damageOverTime,
+        Config.debounce,
+        { player.Character },
+        "PikaBeam",
+        true
+    )
 
     task.delay(Config.Length, function()
         self:_EndAbility(player)

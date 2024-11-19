@@ -54,7 +54,7 @@ function PlayerUtil:ApplyForce(strength, attacker)
 end
 
 function PlayerUtil:Impact(position, normal, distance, size, character, maxRocks, ice, despawnTime)
-    DebrisMaker:Ground(position, normal, distance, size, {character}, maxRocks, ice, despawnTime)
+    DebrisMaker:Ground(position, normal, distance, size, { character }, maxRocks, ice, despawnTime)
 end
 
 function PlayerUtil:Stun(duration)
@@ -64,10 +64,14 @@ function PlayerUtil:Stun(duration)
         end
     else
         local character = Player.Character
-        if not character then return end
+        if not character then
+            return
+        end
 
         local humanoid = character:FindFirstChildOfClass("Humanoid")
-        if not humanoid then return end
+        if not humanoid then
+            return
+        end
 
         originalWalkSpeed = humanoid.WalkSpeed
         originalJumpHeight = humanoid.JumpHeight

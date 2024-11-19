@@ -1,3 +1,3 @@
 return {
-    m1Damage = 5
+    m1Damage = 5,
 }

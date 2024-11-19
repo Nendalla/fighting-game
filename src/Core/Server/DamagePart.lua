@@ -25,11 +25,11 @@ DamagePart.__index = DamagePart
 -- @param canKill boolean Optional; Determines if damage can reduce health to zero
 -- @return table A DamagePart instance
 function DamagePart.new(
-    part: Instance, 
-    damageAmount: number, 
-    damageOverTime: boolean, 
-    debounce: number, 
-    exclude: table, 
+    part: Instance,
+    damageAmount: number,
+    damageOverTime: boolean,
+    debounce: number,
+    exclude: table,
     damageType: string,
     canKill: boolean
 )
@@ -107,19 +107,18 @@ end
 -- @param humanoid Humanoid The humanoid instance within the character
 function DamagePart:_applyDamage(character: Instance)
     -- Validate parameters
-    if not character or not character.Parent then return end
-    if not self.damageAmount or typeof(self.damageAmount) ~= "number" then return end
+    if not character or not character.Parent then
+        return
+    end
+    if not self.damageAmount or typeof(self.damageAmount) ~= "number" then
+        return
+    end
     if not self.damageType or typeof(self.damageType) ~= "string" then
         self.damageType = "generic"
     end
 
     -- Call DamageHandler:TakeDamage with the character
-    DamageHandler:TakeDamage(
-        character, 
-        self.damageAmount, 
-        self.canKill, 
-        self.damageType
-    )
+    DamageHandler:TakeDamage(character, self.damageAmount, self.canKill, self.damageType)
 end
 
 --- Continuously applies damage over time to a humanoid while they remain in the part.
@@ -143,12 +142,7 @@ function DamagePart:_damageOverTime(character: Instance, humanoid: Humanoid)
             and self.part:IsDescendantOf(workspace)
         do
             -- Apply damage using DamageHandler
-            DamageHandler:TakeDamage(
-                character,
-                self.damageAmount,
-                self.canKill,
-                self.damageType
-            )
+            DamageHandler:TakeDamage(character, self.damageAmount, self.canKill, self.damageType)
             task.wait(self.debounce)
         end
         -- Cleanup after loop ends

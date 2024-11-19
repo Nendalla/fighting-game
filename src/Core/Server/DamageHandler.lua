@@ -16,9 +16,13 @@ local Assets = ReplicatedStorage.Assets
 
 function DamageHandler:TakeDamage(character, amount, canKill, damageType)
     local humanoid = character:FindFirstChild("Humanoid")
-    if not humanoid then return end
+    if not humanoid then
+        return
+    end
 
-    if character:GetAttribute("iFrame") then return end
+    if character:GetAttribute("iFrame") then
+        return
+    end
 
     if character:GetAttribute("IsBlocking") and blockableHits[damageType] then
         local blockSound = ReplicatedStorage:FindFirstChild("SoundFXs")
@@ -64,7 +68,7 @@ function DamageHandler:TakeDamage(character, amount, canKill, damageType)
 end
 
 function DamageHandler:Init()
-    Network:Reserve({"DamageEvent", "RemoteEvent"})
+    Network:Reserve({ "DamageEvent", "RemoteEvent" })
 
     Network:ObserveSignal("DamageEvent", function(request, player, data1, data2, data3, data4)
         if request == "Damage" then

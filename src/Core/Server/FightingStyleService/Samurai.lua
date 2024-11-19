@@ -48,7 +48,9 @@ function Samurai:Swing(player, length, finalhit)
 end
 
 function Samurai:Equip(player)
-    if not player.Character or not player.Character:FindFirstChild("PrimaryPart") then return end
+    if not player.Character or not player.Character:FindFirstChild("PrimaryPart") then
+        return
+    end
 
     SoundFX:Play("Unsheath", player.Character.PrimaryPart)
 
@@ -57,7 +59,9 @@ function Samurai:Equip(player)
     swordHitbox.RaycastParams = raycastParams
 
     swordHitbox.OnHit:Connect(function(_, humanoid)
-        if humanoid.Parent:FindFirstChild("iFrame") then return end
+        if humanoid.Parent:FindFirstChild("iFrame") then
+            return
+        end
 
         PlayerUtilServer:iFrame(player, 0.5)
         local animator = humanoid:WaitForChild("Animator")
@@ -90,7 +94,19 @@ function Samurai:Equip(player)
                         local ice = false -- Set to true for icy rocks
                         local despawnTime = 2 -- Time in seconds before rocks disappear
                         local bigExplosion = false -- Big Explosion?
-                        Network:SignalAll("PlayerUtil", "Impact", position, normal, distance, size, humanoid.Parent, maxRocks, ice, despawnTime, bigExplosion)
+                        Network:SignalAll(
+                            "PlayerUtil",
+                            "Impact",
+                            position,
+                            normal,
+                            distance,
+                            size,
+                            humanoid.Parent,
+                            maxRocks,
+                            ice,
+                            despawnTime,
+                            bigExplosion
+                        )
                         active = false
                     end
                 end
@@ -113,7 +129,7 @@ function Samurai:Unequip(player)
 end
 
 function Samurai:Init()
-    Network:Reserve({"Samurai", "RemoteEvent"})
+    Network:Reserve({ "Samurai", "RemoteEvent" })
 
     -- Listen for network signals related to Samurai
     Network:ObserveSignal("Samurai", function(player, request, data1, data2)

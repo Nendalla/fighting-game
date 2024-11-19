@@ -14,7 +14,9 @@ local CombatConfig = Stellar.Get("CombatConfig")
 
 function BlockingServer:StartBlocking(player)
     local character = player.Character
-    if not character then return end
+    if not character then
+        return
+    end
 
     player.Character:SetAttribute("IsBlocking", true)
 
@@ -23,7 +25,9 @@ end
 
 function BlockingServer:StopBlocking(player)
     local character = player.Character
-    if not character then return end
+    if not character then
+        return
+    end
 
     player.Character:SetAttribute("IsBlocking", false)
 
@@ -31,7 +35,7 @@ function BlockingServer:StopBlocking(player)
 end
 
 function BlockingServer:Init()
-    Network:Reserve({"Block", "RemoteEvent"})
+    Network:Reserve({ "Block", "RemoteEvent" })
     Network:ObserveSignal("Block", function(player, request)
         print(request)
         if request == "StartBlocking" then

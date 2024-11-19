@@ -8,6 +8,4 @@ local MovementHandler = {}
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Stellar = require(ReplicatedStorage.SharedModules.Stellar)
 
-
-
 return MovementHandler

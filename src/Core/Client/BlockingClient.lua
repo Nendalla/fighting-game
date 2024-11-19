@@ -18,7 +18,9 @@ local isFPressed = false
 local blockingTask = nil
 
 function BlockingClient:StartBlocking()
-    if isBlocking or blockingTask then return end
+    if isBlocking or blockingTask then
+        return
+    end
 
     isFPressed = true
 
@@ -46,7 +48,8 @@ function BlockingClient:StartBlocking()
         local animator = Player.Character:WaitForChild("Humanoid"):WaitForChild("Animator")
         local STYLE = Player:GetAttribute("FightingStyle")
 
-        local blockingAsset = ReplicatedStorage.Assets.FightingStyles[STYLE]:FindFirstChild("Blocking") or ReplicatedStorage.Assets.Combat.Blocking
+        local blockingAsset = ReplicatedStorage.Assets.FightingStyles[STYLE]:FindFirstChild("Blocking")
+            or ReplicatedStorage.Assets.Combat.Blocking
         if blockingAsset then
             blockingAnim = animator:LoadAnimation(blockingAsset)
             blockingAnim:Play()

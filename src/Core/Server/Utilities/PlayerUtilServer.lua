@@ -12,10 +12,14 @@ local iFramedPlayers = {}
 
 function PlayerUtilServer:iFrame(player, duration)
     local character = player.Character
-    if not character then return end
+    if not character then
+        return
+    end
 
     local humanoid = character:FindFirstChild("Humanoid")
-    if not humanoid then return end
+    if not humanoid then
+        return
+    end
 
     local currentTime = tick()
 
@@ -23,7 +27,7 @@ function PlayerUtilServer:iFrame(player, duration)
         iFramedPlayers[player].endTime = iFramedPlayers[player].endTime + duration
     else
         iFramedPlayers[player] = {
-            endTime = currentTime + duration
+            endTime = currentTime + duration,
         }
 
         character:SetAttribute("iFrame", true)
@@ -43,6 +47,5 @@ function PlayerUtilServer:iFrame(player, duration)
         end)
     end
 end
-
 
 return PlayerUtilServer

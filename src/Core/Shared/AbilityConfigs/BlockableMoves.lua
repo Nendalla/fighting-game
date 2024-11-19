@@ -1,5 +1,5 @@
 return {
     "slashm1",
     "PikaBeam",
-    "fistm1"
+    "fistm1",
 }

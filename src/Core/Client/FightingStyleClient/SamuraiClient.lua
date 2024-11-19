@@ -24,10 +24,10 @@ local attacking = false
 local inputConnection = nil
 
 -- Variables for Combo Reset Mechanism
-local comboResetId = 0  -- Unique identifier for each combo reset timer
-local currentComboNumber = 1  -- Tracks the current attack in the combo
-local maxCombo = 5  -- Maximum number of combos before reset
-local comboResetTime = 2  -- Time in seconds to reset combo
+local comboResetId = 0 -- Unique identifier for each combo reset timer
+local currentComboNumber = 1 -- Tracks the current attack in the combo
+local maxCombo = 5 -- Maximum number of combos before reset
+local comboResetTime = 2 -- Time in seconds to reset combo
 
 -- Load animations for the character
 local function loadAnimations(character)
@@ -58,19 +58,33 @@ end
 
 -- Handle input for attacking
 local function onInputBegan(input, gameProcessed)
-    if gameProcessed then return end
+    if gameProcessed then
+        return
+    end
 
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         local character = Player.Character
-        if not character then return end
+        if not character then
+            return
+        end
         local humanoid = character:FindFirstChildOfClass("Humanoid")
-        if not humanoid or humanoid.Health <= 0 then return end
-        if character:GetAttribute("Stunned") then return end
-        if character:GetAttribute("IsBlocking") then return end
-        if attacking then return end
+        if not humanoid or humanoid.Health <= 0 then
+            return
+        end
+        if character:GetAttribute("Stunned") then
+            return
+        end
+        if character:GetAttribute("IsBlocking") then
+            return
+        end
+        if attacking then
+            return
+        end
 
         local fightingStyle = Player:GetAttribute("FightingStyle")
-        if fightingStyle ~= "Samurai" then return end
+        if fightingStyle ~= "Samurai" then
+            return
+        end
 
         attacking = true
         comboResetId = comboResetId + 1
@@ -94,7 +108,7 @@ local function onInputBegan(input, gameProcessed)
             PlayerUtil:Stun(CombatConfig.Endlag)
         else
             Network:Signal("Samurai", "Swing", animation.Length)
-            PlayerUtil:Stun(CombatConfig.AttackStun)  -- Use a configurable stun duration
+            PlayerUtil:Stun(CombatConfig.AttackStun) -- Use a configurable stun duration
         end
 
         animation:Play()

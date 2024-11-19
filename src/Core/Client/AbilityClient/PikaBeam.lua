@@ -68,10 +68,10 @@ function PikaBeam:Activate()
 
     task.delay(1, function()
         camShake:ShakeOnce(
-            1,    -- Magnitude
-            10,     -- Roughness
-            0.1,    -- Fade-in time
-            0.5,    -- Fade-out time
+            1, -- Magnitude
+            10, -- Roughness
+            0.1, -- Fade-in time
+            0.5, -- Fade-out time
             Vector3.new(1, 1, 1),
             Vector3.new(1, 1, 1)
         )
