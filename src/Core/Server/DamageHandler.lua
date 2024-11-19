@@ -10,14 +10,17 @@ local Stellar = require(ReplicatedStorage.SharedModules.Stellar)
 local Network = Stellar.Get("Network")
 local SoundFX = Stellar.Get("SoundFX")
 
+local blockableHits = Stellar.Get("BlockableMoves")
+
 local Assets = ReplicatedStorage.Assets
 
 function DamageHandler:TakeDamage(character, amount, canKill, damageType)
     local humanoid = character:FindFirstChild("Humanoid")
     if not humanoid then return end
 
-    -- Check if the victim is blocking
-    if character:GetAttribute("IsBlocking") then
+    if character:GetAttribute("iFrame") then return end
+
+    if character:GetAttribute("IsBlocking") and blockableHits[damageType] then
         local blockSound = ReplicatedStorage:FindFirstChild("SoundFXs")
             and ReplicatedStorage.SoundFXs:FindFirstChild("FightingStyles")
             and ReplicatedStorage.SoundFXs.FightingStyles:FindFirstChild("Samurai")
@@ -29,12 +32,8 @@ function DamageHandler:TakeDamage(character, amount, canKill, damageType)
             warn("BlockNoise sound not found in ReplicatedStorage.SoundFXs.FightingStyles.Samurai")
         end
 
-        -- Optionally, add visual feedback here (e.g., a shield effect)
-
-        return  -- Exit the function without applying damage
+        return
     end
-
-    if character:FindFirstChild("iFrame") then return end
 
     local function damage()
         if amount >= humanoid.Health then
@@ -69,7 +68,7 @@ function DamageHandler:Init()
 
     Network:ObserveSignal("DamageEvent", function(request, player, data1, data2, data3, data4)
         if request == "Damage" then
-            DamageHandler:TakeDamage(data1, data2, data3, data4)
+            DamageHandler:TakeDamage(player.character, data1, data2, data3)
         end
     end)
 end

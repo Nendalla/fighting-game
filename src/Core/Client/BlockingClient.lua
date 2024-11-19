@@ -44,7 +44,7 @@ function BlockingClient:StartBlocking()
         Network:Signal("Block", "StartBlocking")
 
         local animator = Player.Character:WaitForChild("Humanoid"):WaitForChild("Animator")
-        local STYLE = Player.Character:GetAttribute("FightingStyle")
+        local STYLE = Player:GetAttribute("FightingStyle")
 
         local blockingAsset = ReplicatedStorage.Assets.FightingStyles[STYLE]:FindFirstChild("Blocking") or ReplicatedStorage.Assets.Combat.Blocking
         if blockingAsset then

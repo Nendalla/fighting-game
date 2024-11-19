@@ -16,7 +16,6 @@ local function onCharacterAdded(character)
 	end
 	character.DescendantAdded:Connect(onDescendantAdded)
 
-	character:SetAttribute("FightingStyle", "Samurai")
 end
 
 Players.PlayerAdded:Connect(function(player)
@@ -27,5 +26,5 @@ Stellar.BulkLoad(ServerStorage.ServerModules, ReplicatedStorage.SharedModules)
 local Network = Stellar.Get("Network")
 Network:Reserve({"PlayerUtil", "RemoteEvent"})
 
-Stellar.BulkGet("AbilityServer", "SoundFX", "Samurai", "DamageHandler", "BlockingServer")
+Stellar.BulkGet("AbilityServer", "SoundFX", "DamageHandler", "BlockingServer", "FightingStyleService")
 

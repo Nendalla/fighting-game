@@ -5,7 +5,7 @@
 --]]
 
 local Samurai = {}
-local Debris = game:GetService("Debris")
+
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Stellar = require(ReplicatedStorage.SharedModules.Stellar)
@@ -30,29 +30,36 @@ function Samurai:Swing(player, length, finalhit)
     local soundToPlay = nil
 
     lasthit = finalhit
-    swordHitbox:HitStart()
+    if swordHitbox then
+        swordHitbox:HitStart()
+    end
 
     repeat
         soundToPlay = sounds[math.random(1, #sounds)]
     until soundToPlay ~= lastPlayedSound
 
     SoundFX:Play(soundToPlay.Name, player.Character.PrimaryPart)
+    lastPlayedSound = soundToPlay
 
     task.wait(length * 0.9)
-    swordHitbox:HitStop()
+    if swordHitbox then
+        swordHitbox:HitStop()
+    end
 end
 
 function Samurai:Equip(player)
+    if not player.Character or not player.Character:FindFirstChild("PrimaryPart") then return end
 
     SoundFX:Play("Unsheath", player.Character.PrimaryPart)
+
     swordHitbox = Hitbox.new(player.Character:FindFirstChild("Katana").Handle)
     raycastParams.FilterDescendantsInstances = { player.Character }
     swordHitbox.RaycastParams = raycastParams
 
     swordHitbox.OnHit:Connect(function(hit, humanoid)
         if humanoid.Parent:FindFirstChild("iFrame") then return end
-        
-        PlayerUtilServer:iFrame(player, 0.25)
+
+        PlayerUtilServer:iFrame(player, 0.5)
         local animator = humanoid:WaitForChild("Animator")
         local Assets = ReplicatedStorage.Assets.Combat
 
@@ -100,7 +107,7 @@ function Samurai:Equip(player)
     end)
 end
 
-function Samurai:Unequip(player, tool)
+function Samurai:Unequip(player)
     swordHitbox = nil
     SoundFX:Play("Sheath", player.Character.PrimaryPart)
 end
@@ -108,17 +115,50 @@ end
 function Samurai:Init()
     Network:Reserve({"Samurai", "RemoteEvent"})
 
+    -- Listen for network signals related to Samurai
     Network:ObserveSignal("Samurai", function(player, request, data1, data2)
-        if request == "Equip" then
-            Samurai:Equip(player)
-        elseif request == "Unequip" then
-            Samurai:Unequip(player)
-        elseif request == "Swing" then
+        if request == "Swing" then
             Samurai:Swing(player, data1, data2)
         else
             print(player, request, data1)
         end
     end)
+
+    -- Monitor players for changes in their fightingStyle attribute
+    Players.PlayerAdded:Connect(function(player)
+        player:GetAttributeChangedSignal("fightingStyle"):Connect(function()
+            local style = player:GetAttribute("fightingStyle")
+            if style == "Samurai" then
+                Samurai:Equip(player)
+            else
+                Samurai:Unequip(player)
+            end
+        end)
+
+        -- Initial check in case the attribute is already set
+        local initialStyle = player:GetAttribute("fightingStyle")
+        if initialStyle == "Samurai" then
+            Samurai:Equip(player)
+        end
+    end)
+
+    -- Also handle existing players if the script runs after some players are already in the game
+    for _, player in ipairs(Players:GetPlayers()) do
+        player:GetAttributeChangedSignal("fightingStyle"):Connect(function()
+            local style = player:GetAttribute("fightingStyle")
+            if style == "Samurai" then
+                Samurai:Equip(player)
+            else
+                Samurai:Unequip(player)
+            end
+        end)
+
+        -- Initial check
+        local initialStyle = player:GetAttribute("fightingStyle")
+        if initialStyle == "Samurai" then
+            Samurai:Equip(player)
+        end
+    end
 end
 
 return Samurai
