@@ -48,10 +48,10 @@ function Samurai:Swing(player, length, finalhit)
 end
 
 function Samurai:Equip(player)
-    if not player.Character or not player.Character:FindFirstChild("PrimaryPart") then
+    if not player.Character or not player.Character.PrimaryPart then
         return
     end
-
+    print(player.Character.PrimaryPart)
     SoundFX:Play("Unsheath", player.Character.PrimaryPart)
 
     swordHitbox = Hitbox.new(player.Character:FindFirstChild("Katana").Handle)
@@ -64,7 +64,7 @@ function Samurai:Equip(player)
         end
 
         PlayerUtilServer:iFrame(player, 0.5)
-        local animator = humanoid:WaitForChild("Animator")
+        local animator = humanoid:WaitForChild("Animator", 0.5)
         local Assets = ReplicatedStorage.Assets.Combat
 
         if animator then
@@ -139,42 +139,6 @@ function Samurai:Init()
             print(player, request, data1)
         end
     end)
-
-    -- Monitor players for changes in their fightingStyle attribute
-    Players.PlayerAdded:Connect(function(player)
-        player:GetAttributeChangedSignal("fightingStyle"):Connect(function()
-            local style = player:GetAttribute("fightingStyle")
-            if style == "Samurai" then
-                Samurai:Equip(player)
-            else
-                Samurai:Unequip(player)
-            end
-        end)
-
-        -- Initial check in case the attribute is already set
-        local initialStyle = player:GetAttribute("fightingStyle")
-        if initialStyle == "Samurai" then
-            Samurai:Equip(player)
-        end
-    end)
-
-    -- Also handle existing players if the script runs after some players are already in the game
-    for _, player in ipairs(Players:GetPlayers()) do
-        player:GetAttributeChangedSignal("fightingStyle"):Connect(function()
-            local style = player:GetAttribute("fightingStyle")
-            if style == "Samurai" then
-                Samurai:Equip(player)
-            else
-                Samurai:Unequip(player)
-            end
-        end)
-
-        -- Initial check
-        local initialStyle = player:GetAttribute("fightingStyle")
-        if initialStyle == "Samurai" then
-            Samurai:Equip(player)
-        end
-    end
 end
 
 return Samurai

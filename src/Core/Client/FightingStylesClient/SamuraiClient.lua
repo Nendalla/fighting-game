@@ -135,6 +135,7 @@ local function onInputBegan(input, gameProcessed)
 end
 
 function SamuraiClient:Init()
+    print("4")
     if Player.Character then
         registerCharacter(Player.Character)
     end

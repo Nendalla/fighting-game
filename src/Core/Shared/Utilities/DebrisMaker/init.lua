@@ -208,14 +208,10 @@ function DebrisMaker:Ground(Pos, Normal, Distance, Size, filter, MaxRocks, Ice, 
                         { Size = Vector3.new(0.01, 0.01, 0.01) }
                     ):Play()
                     TweenService
-                        :Create(
-                            hoof,
-                            TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
-                            {
-                                Size = Vector3.new(0.01, 0.01, 0.01),
-                                CFrame = part.CFrame * CFrame.new(0, part.Size.Y / 2 - part.Size.Y / 2.1, 0),
-                            }
-                        )
+                        :Create(hoof, TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
+                            Size = Vector3.new(0.01, 0.01, 0.01),
+                            CFrame = part.CFrame * CFrame.new(0, part.Size.Y / 2 - part.Size.Y / 2.1, 0),
+                        })
                         :Play()
 
                     task.delay(0.6, function()
@@ -324,14 +320,10 @@ function DebrisMaker:Ground(Pos, Normal, Distance, Size, filter, MaxRocks, Ice, 
                         { Size = Vector3.new(0.01, 0.01, 0.01) }
                     ):Play()
                     TweenService
-                        :Create(
-                            hoof,
-                            TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
-                            {
-                                Size = Vector3.new(0.01, 0.01, 0.01),
-                                CFrame = part.CFrame * CFrame.new(0, part.Size.Y / 2 - part.Size.Y / 2.1, 0),
-                            }
-                        )
+                        :Create(hoof, TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {
+                            Size = Vector3.new(0.01, 0.01, 0.01),
+                            CFrame = part.CFrame * CFrame.new(0, part.Size.Y / 2 - part.Size.Y / 2.1, 0),
+                        })
                         :Play()
 
                     task.delay(0.6, function()

@@ -25,17 +25,7 @@ function DamageHandler:TakeDamage(character, amount, canKill, damageType)
     end
 
     if character:GetAttribute("IsBlocking") and blockableHits[damageType] then
-        local blockSound = ReplicatedStorage:FindFirstChild("SoundFXs")
-            and ReplicatedStorage.SoundFXs:FindFirstChild("FightingStyles")
-            and ReplicatedStorage.SoundFXs.FightingStyles:FindFirstChild("Samurai")
-            and ReplicatedStorage.SoundFXs.FightingStyles.Samurai:FindFirstChild("BlockNoise")
-
-        if blockSound then
-            SoundFX:Play("BlockNoise", character.PrimaryPart)
-        else
-            warn("BlockNoise sound not found in ReplicatedStorage.SoundFXs.FightingStyles.Samurai")
-        end
-
+        SoundFX:Play("BlockNoise", character.PrimaryPart)
         return
     end
 

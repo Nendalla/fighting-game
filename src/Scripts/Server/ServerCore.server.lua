@@ -18,10 +18,12 @@ local function onCharacterAdded(character)
 end
 
 Players.PlayerAdded:Connect(function(player)
+	player:SetAttribute("FightingStyle", nil)
     player.CharacterAdded:Connect(onCharacterAdded)
 end)
 
 Stellar.BulkLoad(ServerStorage.ServerModules, ReplicatedStorage.SharedModules)
+
 local Network = Stellar.Get("Network")
 Network:Reserve({ "PlayerUtil", "RemoteEvent" })
 
